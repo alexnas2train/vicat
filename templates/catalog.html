@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+  <div id="view-wrap">
+    <div id="view" class="img-series">
+
+      <form id="filter_block" class="filter_ul" action="/vicat/catalog/" method="post">
+          {% csrf_token %}
+            {% for f in form %}
+              <div class="filter_li">
+                    <div class="filt-left">{{ f.label }}</div>:
+                    <span class="filt-right">{{ f }}</span>
+              </div>
+            {% endfor %}
+          <input id="filter_submit" type="submit" value="Выбрать" />
+      </form>
+
+    </div>
+
+    <div id="under-view">
+      <div id="under-view-left">
+        <form id="search_form" action="/vicat/search/" method="GET">
+            <input id="search_text" type="text" name="q">
+            <input id="search_submit" type="submit" value="Найти">
+        </form>
+      </div>
+<!--       <div id="under-view-left">
+      </div> -->
+    </div>
+  </div>
+
+
+  <div id="wrapper">
+
+  <div id="info_wrapper" class="height1">
+    <div class="ser-title">ВИДЕО-КАТАЛОГ</div>
+      <div id="create_new">
+        <a href="/vicat/create_series/">Добавить сериал</a>
+      </div>
+  <!-- aaaaaaa -->
+      <div id="info-block" class="fixheight1 padtop2">
+        {% if series_list %}
+          <ul id="series-list" class="tab-clear">
+            {% for series in series_list %}
+            <div class="tab-left">
+              <li><a href="/vicat/{{ series.id }}">{{ series.title }}</a></li>
+            </div>
+            <div class="tab-right">
+              <span class="is{{ series.active }}">A</span>
+              <span class="is{{ series.istorrent }}">T</span>
+              <span class="is{{ series.tosearch }}">S</span>
+              <span class="is{{ series.viewed }}">V</span>
+            </div>
+            <br>
+            {% endfor %}
+          </ul>
+        {% else %}
+            <p>По запросу ничего не найдено</p>
+        {% endif %}
+      </div>
+  <!-- aaaaaaa -->
+
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block underground %}
+    <div class="thumbs"><img src="{% static "img/girlt.jpg" %}" alt="adasdsad" /></div>
+    <div class="thumbs"><img src="{% static "img/robots.jpg" %}" alt="" /></div>
+    <div class="thumbs"><img src="{% static "img/couple.jpg" %}" alt="" /></div>
+    <div class="thumbs"><img src="{% static "img/anothergirl.jpg" %}" alt="" /></div>
+{% endblock %}

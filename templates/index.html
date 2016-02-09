@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+  <div id="view-wrap">
+    <div id="view" class="img-series">
+          <img src="{% static "img/girl.jpg" %}" alt="Picture of girl" />
+    </div>
+
+    <div id="under-view">
+      <div id="under-view-left">
+        <form id="search_form" action="/vicat/search/" method="GET">
+            <input id="search_text" type="text" name="q">
+            <input id="search_submit" type="submit" value="Найти">
+        </form>
+      </div>
+<!--       <div id="under-view-left">
+      </div> -->
+    </div>
+  </div>
+
+    <div id="wrapper">
+      <div id="info-block" class="height1">
+        <div class="ser-title">АНИМЕ</div>
+        <div class="padtop4"></div>
+        <div id="text"  class="txt_16">
+          <p>В отличие от мульфильмов других стран, предназначенных в основном
+              для просмотра детьми, большая часть выпускаемого аниме рассчитана
+              на подростковую и взрослую аудитории, и во многом за счет этого
+              имеет высокую популярность в мире.</p><br>
+
+          <p>Аниме отличается характерной манерой отрисовки персонажей и фонов.
+              Издается в форме телевизионных сериалов, а также фильмов.</p>
+
+
+
+        </div>
+      </div>
+    </div>
+{% endblock %}
+
+
+
+{% block underground %}
+    <div class="thumbs"><img src="{% static "img/girlt.jpg" %}" alt="adasdsad" /></div>
+    <div class="thumbs"><img src="{% static "img/robots.jpg" %}" alt="" /></div>
+    <div class="thumbs"><img src="{% static "img/couple.jpg" %}" alt="" /></div>
+    <div class="thumbs"><img src="{% static "img/anothergirl.jpg" %}" alt="" /></div>
+{% endblock %}

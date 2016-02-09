@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+  <div id="view-wrap">
+    <div id="view" class="img-series">
+          <img src="{% static "img/girl.jpg" %}" alt="Picture of girl" />
+          <!-- <img src="{% static 'series.preview_series' %}" alt="Picture of series" /> -->
+          <!-- <img src="www{{ series.preview_series }}" alt="{{ series.preview_series }}" /> -->
+
+          <!-- <img src="{{ preview_series_url }}" / > -->
+          <!-- <img src="{{STATIC_URL}}images/google.png" / > -->
+
+    </div>
+{{ series.preview_series }}
+    <div id="under-view">
+      <div id="under-view-left">
+{{ series.preview_series }}
+      </div>
+      <div id="under-view-left">
+
+      </div>
+
+    </div>
+  </div>
+
+
+
+    <div id="wrapper">
+    <div id="info-block" class="height1">
+      <div class="ser-title">{{ series.title }}</div>
+      <div id="create_new">
+        <a href="/vicat/edit_series/{{ series.id }}">Редактировать сериал</a>
+      </div>
+
+
+      <div id="info-stat">
+
+          <span   class="rate">Страна:</span><span class="val-rate"> {{ series.country }}</span><br>
+          <span   class="rate">Год:</span><span class="val-rate"> {{ series.year }}</span><br>
+          <span   class="rate">Студия:</span><span class="val-rate"> {{ series.studio }}</span><br>
+          <br>
+
+
+          <span class="is{{ series.active }}">A</span>
+          <span class="is{{ series.istorrent }}">T</span>
+          <span class="is{{ series.tosearch }}">S</span>
+          <span class="is{{ series.viewed }}">V</span>
+          <br><br>
+
+          <span   class="rate">Язык:</span><span class="val-rate"> {{ series.language }}</span><br>
+          <span   class="rate">Субтит:</span><span class="val-rate"> {{ series.subt_lan }}</span><br>
+
+          <br>
+          <div class="blue"><a class="blue" href='/vicat/{{ series.id }}/seasons'>Эпизодов: {{ series.episode_qty }}</a></div>
+          <div class="blue"><a class="blue" href='/vicat/{{ series.id }}/seasons'>(сезонов: {{ series.season_qty }})</a></div>
+          <br>
+
+          <span   class="rate">Тип:</span><span class="val-rate"> {{ series.show_type }}</span><br>
+          <span   class="rate">Жанр:</span><span class="val-rate"> {{ series.genre }}</span><br>
+          <br>
+          <div class="time"><p>{{ series.length }} минут</p></div>
+          <br>
+
+      </div>
+      <div id="more-info"  class="fixheight1">
+        <div id="text" class="txt_14"><p>{{ series.description|safe }}</p></div>
+        <br>
+        <span   class="rate">Режисер:</span><span class="val-rate"> {{ series.director }}</span><br>
+        <span   class="rate">Актеры:</span><span class="val-rate"> {{ series.actors }}</span><br>
+        <br>
+        <span   class="rate">Название в переводе:</span><br><span class="val-rate"> {{ series.title_trans|safe }}</span><br>
+        <br>
+        {% if is_editor %}
+          <span   class="rate">Заметки:</span><br><span class="d"> {{ series.note|safe }}</span><br>
+        {% endif %}
+
+
+      </div>
+    </div>
+
+
+
+    </div>
+{% endblock %}
+
+
+{% block underground %}
+    {% if episode_list_total %}
+      <ul></ul>
+        {% for episode in episode_list_total %}
+          <li><a href="/vicat/{{ episode.id }}">{{ episode.title }}</a></li>
+        {% endfor %}
+    {% else %}
+      <p>No episode is available</p>
+    {% endif %}
+{% endblock %}

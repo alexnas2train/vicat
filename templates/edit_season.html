@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+  <div id="view-wrap">
+    <div id="view" class="img-series">
+          <img src="{% static "img/girl.jpg" %}" alt="Picture of girl" />
+    </div>
+
+    <div id="under-view">
+      <div id="under-view-left">
+      </div>
+<!--       <div id="under-view-left">
+      </div> -->
+    </div>
+  </div>
+
+    <div id="wrapper">
+      <div id="info-block" class="height1">
+        <div class="ser-title">{{ season.title }}</div>
+        <div id="create_new">
+          <a href="/vicat/{{ series_id }}/season/{{ season_num }}">Отмена - вернуться к сезону</a>
+        </div>
+
+        {% if season_list %}
+          <ul class="list-hr">
+            <li>Уже введены сезоны: </li>
+            {% for season in season_list %}
+              <li> {{ season.season_num }} </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p>No season is available</p>
+        {% endif %}
+
+        <form id="newedit_block" class="filter_ul create_series_form" action="/vicat/{{ series_id }}/edit_season/{{ season_num }}" method="post">
+            {% csrf_token %}
+              {{ form.as_p }}
+            <input id="newedit_submit" type="submit" name="submit" value="Подтвердить">
+        </form>
+
+      </div>
+    </div>
+{% endblock %}
+
+
+
+{% block underground %}
+{% endblock %}

@@ -1,0 +1,629 @@
+[
+{
+    "model": "contenttypes.contenttype",
+    "pk": 1,
+    "fields": {
+        "app_label": "admin",
+        "model": "logentry"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 2,
+    "fields": {
+        "app_label": "auth",
+        "model": "permission"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 3,
+    "fields": {
+        "app_label": "auth",
+        "model": "group"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 4,
+    "fields": {
+        "app_label": "auth",
+        "model": "user"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 5,
+    "fields": {
+        "app_label": "contenttypes",
+        "model": "contenttype"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 6,
+    "fields": {
+        "app_label": "sessions",
+        "model": "session"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 7,
+    "fields": {
+        "app_label": "vicat",
+        "model": "series"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 8,
+    "fields": {
+        "app_label": "vicat",
+        "model": "episode"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "0w84ngx7v9vafby1xt44bvegbg18fpy9",
+    "fields": {
+        "session_data": "ZDFhYjU0YmIxMTk1NDJiNmI3ZDRmYmNiNzQ2ZGVkNmI0MjhmNjFiNDp7Il9hdXRoX3VzZXJfaGFzaCI6ImYyN2I4MWUzZTQ1YmIwNjU1ZjhkMTQ2ZWUzZjQ2YjFlMWEyZjI1NDkiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxIn0=",
+        "expire_date": "2016-01-26T08:21:18.926Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "3jxg7s51cdu3h5mkzu3kxspi7rag3ayj",
+    "fields": {
+        "session_data": "ZDFhYjU0YmIxMTk1NDJiNmI3ZDRmYmNiNzQ2ZGVkNmI0MjhmNjFiNDp7Il9hdXRoX3VzZXJfaGFzaCI6ImYyN2I4MWUzZTQ1YmIwNjU1ZjhkMTQ2ZWUzZjQ2YjFlMWEyZjI1NDkiLCJfYXV0aF91c2VyX2JhY2tlbmQiOiJkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZCIsIl9hdXRoX3VzZXJfaWQiOiIxIn0=",
+        "expire_date": "2016-01-22T04:06:43.529Z"
+    }
+},
+{
+    "model": "vicat.series",
+    "pk": 1,
+    "fields": {
+        "title": "Sherlock",
+        "description": "Sherlock Holmes and Dr Watson's adventures in 21st Century London. A thrilling, funny, fast-paced contemporary remake of the Arthur Conan Doyle classic. Each season consists of 3 90 minute episodes.",
+        "year": 1995,
+        "preview": "",
+        "length": 90,
+        "season_qty": 4,
+        "episode_qty": 211,
+        "country": "GB",
+        "studio": "21st Century London",
+        "language": "English",
+        "dub_lang": "",
+        "subt_lan": "",
+        "created": "2016-01-10T13:48:12.160Z",
+        "updated": "2016-01-11T05:10:34.624Z"
+    }
+},
+{
+    "model": "vicat.series",
+    "pk": 2,
+    "fields": {
+        "title": "Supernatural",
+        "description": "Jensen Ackles and Jared Padalecki star as Dean and Sam Winchester, two brothers searching for the meaning behind their mother's death at the hand of a demon, and their father's mysterious disappearance.",
+        "year": 2011,
+        "preview": "",
+        "length": 60,
+        "season_qty": 11,
+        "episode_qty": 229,
+        "country": "USA",
+        "studio": "US strings",
+        "language": "English",
+        "dub_lang": "",
+        "subt_lan": "",
+        "created": "2016-01-10T13:51:26.500Z",
+        "updated": "2016-01-11T05:12:34.649Z"
+    }
+},
+{
+    "model": "vicat.series",
+    "pk": 3,
+    "fields": {
+        "title": "One piece",
+        "description": "One Piece was created from the One Piece manga series. It is the story of Monkey D. Luffy, a boy who wants to find the legendary treasure \"One Piece\" and become the King of Pirates! Armed with Devil Fruit powers that make his body elastic and a loyal crew of adventure-seeking comrades, Luffy sails the seas of the Grand Line in search for his next great adventure. Watch online One Piece episodes with SideReel!",
+        "year": 0,
+        "preview": "",
+        "length": 30,
+        "season_qty": 8,
+        "episode_qty": 729,
+        "country": "USA",
+        "studio": "We Brothers",
+        "language": "English",
+        "dub_lang": "",
+        "subt_lan": "",
+        "created": "2016-01-10T13:56:19.492Z",
+        "updated": "2016-01-10T13:58:57.800Z"
+    }
+},
+{
+    "model": "vicat.episode",
+    "pk": 1,
+    "fields": {
+        "title": "Episode 1",
+        "description": "",
+        "preview": "",
+        "length": 90,
+        "season_num": 1,
+        "episode_num": 1,
+        "watch_count": 0,
+        "created": "2016-01-11T06:17:48.146Z",
+        "updated": "2016-01-12T03:17:25.196Z",
+        "series_id": 1
+    }
+},
+{
+    "model": "vicat.episode",
+    "pk": 2,
+    "fields": {
+        "title": "\u042d\u043f\u0438\u0437\u043e\u0434 2",
+        "description": "\u0432\u0430\u0444\u0430\u0432\u0444\u044b\u0430\u0444\u044b\u0430\u0444\u044b\u0430\u0444\u044b\u0430\u0444\u0430  \u0444\u0432\u0430\u0444\u044b \u0444\u0432\u0430\u0444\u044b\u0432\u0430\u0444  \u044b\u0432\u0430\u0430\u044b\u0444\u0430\u0444\u0430",
+        "preview": "",
+        "length": 90,
+        "season_num": 1,
+        "episode_num": 2,
+        "watch_count": 0,
+        "created": "2016-01-11T06:19:03.078Z",
+        "updated": "2016-01-11T06:19:03.078Z",
+        "series_id": 1
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 1,
+    "fields": {
+        "name": "Can add log entry",
+        "content_type": 1,
+        "codename": "add_logentry"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 2,
+    "fields": {
+        "name": "Can change log entry",
+        "content_type": 1,
+        "codename": "change_logentry"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 3,
+    "fields": {
+        "name": "Can delete log entry",
+        "content_type": 1,
+        "codename": "delete_logentry"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 4,
+    "fields": {
+        "name": "Can add permission",
+        "content_type": 2,
+        "codename": "add_permission"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 5,
+    "fields": {
+        "name": "Can change permission",
+        "content_type": 2,
+        "codename": "change_permission"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 6,
+    "fields": {
+        "name": "Can delete permission",
+        "content_type": 2,
+        "codename": "delete_permission"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 7,
+    "fields": {
+        "name": "Can add group",
+        "content_type": 3,
+        "codename": "add_group"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 8,
+    "fields": {
+        "name": "Can change group",
+        "content_type": 3,
+        "codename": "change_group"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 9,
+    "fields": {
+        "name": "Can delete group",
+        "content_type": 3,
+        "codename": "delete_group"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 10,
+    "fields": {
+        "name": "Can add user",
+        "content_type": 4,
+        "codename": "add_user"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 11,
+    "fields": {
+        "name": "Can change user",
+        "content_type": 4,
+        "codename": "change_user"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 12,
+    "fields": {
+        "name": "Can delete user",
+        "content_type": 4,
+        "codename": "delete_user"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 13,
+    "fields": {
+        "name": "Can add content type",
+        "content_type": 5,
+        "codename": "add_contenttype"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 14,
+    "fields": {
+        "name": "Can change content type",
+        "content_type": 5,
+        "codename": "change_contenttype"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 15,
+    "fields": {
+        "name": "Can delete content type",
+        "content_type": 5,
+        "codename": "delete_contenttype"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 16,
+    "fields": {
+        "name": "Can add session",
+        "content_type": 6,
+        "codename": "add_session"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 17,
+    "fields": {
+        "name": "Can change session",
+        "content_type": 6,
+        "codename": "change_session"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 18,
+    "fields": {
+        "name": "Can delete session",
+        "content_type": 6,
+        "codename": "delete_session"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 19,
+    "fields": {
+        "name": "Can add \u0421\u0435\u0440\u0438\u0430\u043b",
+        "content_type": 7,
+        "codename": "add_series"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 20,
+    "fields": {
+        "name": "Can change \u0421\u0435\u0440\u0438\u0430\u043b",
+        "content_type": 7,
+        "codename": "change_series"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 21,
+    "fields": {
+        "name": "Can delete \u0421\u0435\u0440\u0438\u0430\u043b",
+        "content_type": 7,
+        "codename": "delete_series"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 22,
+    "fields": {
+        "name": "Can add \u042d\u043f\u0438\u0437\u043e\u0434",
+        "content_type": 8,
+        "codename": "add_episode"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 23,
+    "fields": {
+        "name": "Can change \u042d\u043f\u0438\u0437\u043e\u0434",
+        "content_type": 8,
+        "codename": "change_episode"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 24,
+    "fields": {
+        "name": "Can delete \u042d\u043f\u0438\u0437\u043e\u0434",
+        "content_type": 8,
+        "codename": "delete_episode"
+    }
+},
+{
+    "model": "auth.user",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$24000$glrW460dA0XM$MnlndNpP7MjWzqLGauzFxC8/MyiF/YfWI8GKBFlHfA8=",
+        "last_login": "2016-01-12T08:21:18.911Z",
+        "is_superuser": true,
+        "username": "admin",
+        "first_name": "",
+        "last_name": "",
+        "email": "admin@example.com",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2016-01-08T04:05:09.907Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 1,
+    "fields": {
+        "action_time": "2016-01-10T13:48:12.163Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "1",
+        "object_repr": "\u0421\u0435\u0440\u0438\u0430\u043b Sherlock",
+        "action_flag": 1,
+        "change_message": "\u0414\u043e\u0431\u0430\u0432\u043b\u0435\u043d\u043e."
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 2,
+    "fields": {
+        "action_time": "2016-01-10T13:51:26.504Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "2",
+        "object_repr": "\u0421\u0435\u0440\u0438\u0430\u043b Supernatural",
+        "action_flag": 1,
+        "change_message": "\u0414\u043e\u0431\u0430\u0432\u043b\u0435\u043d\u043e."
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 3,
+    "fields": {
+        "action_time": "2016-01-10T13:51:50.683Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "1",
+        "object_repr": "\u0421\u0435\u0440\u0438\u0430\u043b Sherlock",
+        "action_flag": 2,
+        "change_message": "\u0418\u0437\u043c\u0435\u043d\u0435\u043d length."
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 4,
+    "fields": {
+        "action_time": "2016-01-10T13:56:19.499Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "3",
+        "object_repr": "One piece",
+        "action_flag": 1,
+        "change_message": "\u0414\u043e\u0431\u0430\u0432\u043b\u0435\u043d\u043e."
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 5,
+    "fields": {
+        "action_time": "2016-01-10T13:58:57.808Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "3",
+        "object_repr": "One piece",
+        "action_flag": 2,
+        "change_message": "\u0418\u0437\u043c\u0435\u043d\u0435\u043d season_qty \u0438 episode_qty."
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 6,
+    "fields": {
+        "action_time": "2016-01-10T13:59:29.386Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "2",
+        "object_repr": "Supernatural",
+        "action_flag": 2,
+        "change_message": "\u0418\u0437\u043c\u0435\u043d\u0435\u043d season_qty \u0438 episode_qty."
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 7,
+    "fields": {
+        "action_time": "2016-01-10T14:00:59.731Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "1",
+        "object_repr": "Sherlock",
+        "action_flag": 2,
+        "change_message": "\u0418\u0437\u043c\u0435\u043d\u0435\u043d season_qty, episode_qty \u0438 studio."
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 8,
+    "fields": {
+        "action_time": "2016-01-10T14:03:36.364Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "2",
+        "object_repr": "Supernatural",
+        "action_flag": 2,
+        "change_message": "\u041d\u0438 \u043e\u0434\u043d\u043e \u043f\u043e\u043b\u0435 \u043d\u0435 \u0438\u0437\u043c\u0435\u043d\u0435\u043d\u043e."
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 9,
+    "fields": {
+        "action_time": "2016-01-11T04:11:27.344Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "1",
+        "object_repr": "Sherlock",
+        "action_flag": 2,
+        "change_message": "\u0418\u0437\u043c\u0435\u043d\u0435\u043d episode_qty."
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 10,
+    "fields": {
+        "action_time": "2016-01-11T05:10:34.635Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "1",
+        "object_repr": "Sherlock",
+        "action_flag": 2,
+        "change_message": "\u0418\u0437\u043c\u0435\u043d\u0435\u043d year."
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 11,
+    "fields": {
+        "action_time": "2016-01-11T05:12:34.657Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "2",
+        "object_repr": "Supernatural",
+        "action_flag": 2,
+        "change_message": "\u0418\u0437\u043c\u0435\u043d\u0435\u043d year."
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 12,
+    "fields": {
+        "action_time": "2016-01-11T06:17:48.153Z",
+        "user": 1,
+        "content_type": 8,
+        "object_id": "1",
+        "object_repr": "\u042d\u043f\u0438\u0437\u043e\u0434 Episode 1",
+        "action_flag": 1,
+        "change_message": "\u0414\u043e\u0431\u0430\u0432\u043b\u0435\u043d\u043e."
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 13,
+    "fields": {
+        "action_time": "2016-01-11T06:18:22.515Z",
+        "user": 1,
+        "content_type": 8,
+        "object_id": "1",
+        "object_repr": "\u042d\u043f\u0438\u0437\u043e\u0434 Episode 1",
+        "action_flag": 2,
+        "change_message": "\u0418\u0437\u043c\u0435\u043d\u0435\u043d length."
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 14,
+    "fields": {
+        "action_time": "2016-01-11T06:19:03.083Z",
+        "user": 1,
+        "content_type": 8,
+        "object_id": "2",
+        "object_repr": "\u042d\u043f\u0438\u0437\u043e\u0434 \u042d\u043f\u0438\u0437\u043e\u0434 2",
+        "action_flag": 1,
+        "change_message": "\u0414\u043e\u0431\u0430\u0432\u043b\u0435\u043d\u043e."
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 15,
+    "fields": {
+        "action_time": "2016-01-12T03:17:16.649Z",
+        "user": 1,
+        "content_type": 8,
+        "object_id": "1",
+        "object_repr": "\u042d\u043f\u0438\u0437\u043e\u0434 Episode 1",
+        "action_flag": 2,
+        "change_message": "\u0418\u0437\u043c\u0435\u043d\u0435\u043d watch_count."
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 16,
+    "fields": {
+        "action_time": "2016-01-12T03:17:16.757Z",
+        "user": 1,
+        "content_type": 8,
+        "object_id": "1",
+        "object_repr": "\u042d\u043f\u0438\u0437\u043e\u0434 Episode 1",
+        "action_flag": 2,
+        "change_message": "\u041d\u0438 \u043e\u0434\u043d\u043e \u043f\u043e\u043b\u0435 \u043d\u0435 \u0438\u0437\u043c\u0435\u043d\u0435\u043d\u043e."
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 17,
+    "fields": {
+        "action_time": "2016-01-12T03:17:25.203Z",
+        "user": 1,
+        "content_type": 8,
+        "object_id": "1",
+        "object_repr": "\u042d\u043f\u0438\u0437\u043e\u0434 Episode 1",
+        "action_flag": 2,
+        "change_message": "\u0418\u0437\u043c\u0435\u043d\u0435\u043d watch_count."
+    }
+}
+]

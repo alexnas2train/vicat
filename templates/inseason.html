@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+  <div id="view-wrap">
+    <div id="view" class="img-series">
+          <img src="{% static "img/girl.jpg" %}" alt="Picture of girl" />
+    </div>
+
+    <div id="under-view">
+      <div id="under-view-left">
+
+      </div>
+      <div id="under-view-left">
+
+      </div>
+    </div>
+  </div>
+
+
+  <div id="wrapper">
+    <div id="info-block" >
+      <div class="ser-title">{{ series.title }}</div>
+        <div class="season-title padleft2">Season {{ season_num }}: {{ cur_season.title }}</div>
+        <div id="create_new">
+          <a href="/vicat/{{ series.id }}/edit_season/{{ season_num }}">Редактировать сезон</a>
+        </div>
+        <div id="create_new">
+          <a href="/vicat/{{ series.id }}/season/{{ season_num }}/create_episode">Добавить эпизод</a>
+        </div>
+
+      <div id="info-stat">
+          <span   class="rate">Страна:</span><span class="val-rate"> {{ series.country }}</span><br>
+          <span   class="rate">Год:</span><span class="val-rate"> {{ series.year }}</span><br>
+          <span   class="rate">Студия:</span><span class="val-rate"> {{ series.studio }}</span><br>
+          <br>
+
+          <span class="is{{ series.active }}">A</span>
+          <span class="is{{ series.istorrent }}">T</span>
+          <span class="is{{ series.tosearch }}">S</span>
+          <span class="is{{ series.viewed }}">V</span>
+          <br>
+          <br>
+
+          <div class="blue"><a class="blue" href='/vicat/{{ series.id }}/seasons'>Эпизодов: {{ series.episode_qty }}</a></div>
+          <div class="blue"><a class="blue" href='/vicat/{{ series.id }}/seasons'>(сезонов: {{ series.season_qty }})</a></div><br>
+      </div>
+      <div id="more-info" class="fixheight3">
+
+        {% if season_list %}
+          <ul class="list-hr">
+            {% for season in season_list %}
+              <li><a href="/vicat/{{ series.id }}/season/{{ season.season_num }}"> {{ season.season_num }}</a></li>
+            {% endfor %}
+            <li><a href="/vicat/{{ series.id }}/seasons">[Все сезоны]</a></li>
+          </ul>
+        {% else %}
+          <p>No episode is available</p>
+        {% endif %}
+
+        <div class="padtop1"></div>
+
+        {% if episode_list %}
+          <ul id="episod-list" >
+            {% for episode in episode_list %}
+              <li><a href="/vicat/{{ series.id }}/season/{{ season_num }}/{{ episode.id }}">s{{ season_num }}e{{ episode.episode_num }}: {{ episode.title }}</a></li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p>No episode is available</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block underground %}
+    {% if episode_list %}
+      <ul></ul>
+        {% for episode in episode_list %}
+          <li><a href="/vicat/{{ episode.id }}">Эпизод {{ episode.episode_num }}: {{ episode.title }}</a></li>
+        {% endfor %}
+    {% else %}
+      <p>No episode is no available</p>
+    {% endif %}
+{% endblock %}

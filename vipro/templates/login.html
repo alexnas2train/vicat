@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+  <div id="view-wrap">
+    <div id="view" class="img-series">
+          <img src="{% static "img/girl.jpg" %}" alt="Picture of girl" />
+    </div>
+
+    <div id="under-view">
+      <div id="under-view-left">
+      </div>
+<!--       <div id="under-view-left">
+      </div> -->
+    </div>
+  </div>
+
+    <div id="wrapper">
+      <div id="info-block" class="height1">
+        <div class="ser-title">Добро пожаловать!</div>
+        <div class="padtop4"></div>
+        <div id="login_block">
+
+          {% if form.errors %}
+            <!-- <p class="error">Sorry, this is not valid username or password</p> -->
+            <p class="error">Данные введены неправильно, проверьте логин или пароль.</p>
+          {% endif %}
+
+          <form id="login_form" action="/accounts/auth/" method="POST">
+            {% csrf_token %}
+            <label for="username">Логин:</label>
+            <input type="text" name="username" value="" id="Логин">
+            <br>
+            <label for="password">Пароль:</label>
+            <input type="password" name="password" value="" id="Пароль">
+            <br>
+            <input id="newedit_submit"  type="submit" value="Подтверждение" />
+          </form>
+
+
+
+
+
+
+        </div>
+      </div>
+    </div>
+{% endblock %}
+
+
+
+{% block underground %}
+{% endblock %}

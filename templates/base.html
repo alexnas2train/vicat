@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+<head>
+    <title>
+    </title>
+    <meta charset="utf-8">
+    <script src="{% static 'js/jquery-2.2.0.min.js' %}"></script>
+    <!-- // <script src="{% static 'js/vicat_ajax.js' %}"></script> -->
+    <script src="{% static 'js/main.js' %}"></script>
+    <link rel="shortcut icon" href="http://www.webremeslo.ru/favicon.ico">
+    <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/main.css' %}" rel="stylesheet">
+
+
+</head>
+<body onload="initElement()">
+  <div id="wrap">
+    <div id="seacrch-login">
+      <div id="back-linkage">
+              {% if where == 'catalog' %}
+              <span>Каталог</span>
+
+<!-- ================= -->
+              {% elif where == 'series' %}
+                <a href="/vicat/catalog/">Каталог</a>
+                <span> / </span>
+                <span curr-link href="/vicat/{{ series.id }}">{{ series.title }}</span>
+
+              {% elif where == 'reviews' %}
+                <a href="/vicat/catalog/">Каталог</a>
+                <span> / </span>
+                <a href="/vicat/{{ series.id }}">{{ series.title }}</a>
+                <span> / </span>
+                <span>Отзывы</span>
+
+              {% elif where == 'seasons' %}
+                <a href="/vicat/catalog/">Каталог</a>
+                <span> / </span>
+                <a href="/vicat/{{ series.id }}">{{ series.title }}</a>
+                <span> / </span>
+                <span>Сезоны</span>
+
+              {% elif where == 'inseason' %}
+                <a href="/vicat/catalog/">Каталог</a>
+                <span> / </span>
+                <a href="/vicat/{{ series.id }}">{{ series.title }}</a>
+                <span> / </span>
+                <a href="/vicat/{{ series.id }}/seasons">Сезоны</a>
+                <span> / </span>
+                <span>Сезон {{ season_num }}</span>
+
+              {% elif where == 'episode' %}
+                <a href="/vicat/catalog/">Каталог</a>
+                <span> / </span>
+                <a href="/vicat/{{ series.id }}">{{ series.title }}</a>
+                <span> / </span>
+                <a href="/vicat/{{ series.id }}/seasons">Сезоны</a>
+                <span> / </span>
+                <a href="/vicat/{{ series.id }}/season/{{ season_num }}">Сезон {{ season_num }}</a>
+                <span> / </span>
+                <span>Эпизод {{ episode.episode_num }}</span>
+              {% endif %}
+
+<!-- ================= -->
+
+
+      </div>
+      <div class="login">
+        {% if user.is_authenticated %}
+            <a href="">User: {{ user.username }} </a>
+            <a href="/accounts/logout/">Выйти</a>
+        {% else %}
+            <a href="/accounts/login/">Войти</a>
+        {% endif %}
+      </div>
+
+
+
+
+      <div class="login">
+        {% if user.is_authenticated %}
+        {% else %}
+          <a href="/accounts/register/">Регистрация</a>
+        {% endif %}
+      </div>
+
+      <div class="login">
+        {% if is_editor %}
+              <a href="http://127.0.0.1:8000/admin/vicat/">Админ</a>
+        {% endif %}
+      </div>
+
+    </div>
+    <div id="lightback">
+      <div id="main-wrap">
+        <div id="main-top">
+
+        </div>
+          {% block top_block %}
+          {% endblock %}
+        <div id="main">
+          {% block content %}
+          {% endblock %}
+        </div>
+        <div id="menu">
+          <ul class="hr">
+            <li  onclick="window.location.href='/vicat/'">Home</li>
+            <li  onclick="window.location.href='/vicat/catalog/'">Каталог</li>
+            {% if where == 'series' %}
+              <li onclick="window.location.href='/vicat/{{ series.id }}/seasons'">Эпизоды ({{ series.episode_qty }})</li>
+
+              <li  onclick="window.location.href='/vicat/{{ series.id }}/reviews'">Отзывы ({{ review_count }})</li>
+
+
+            {% endif %}
+
+            <li class="dummybtn">&nbsp</li>
+
+            {% if user.is_authenticated %}
+              {% if where == 'reviews' %}
+                <li  onclick="window.location.href='/vicat/{{ series.id }}/create_review'">Добавить отзыв</li>
+              {% endif %}
+
+            {% endif %}
+
+
+            {% if is_editor %}
+              {% if where == 'catalog' %}
+                <li onclick="window.location.href='/vicat/create_series/'">Добавить сериал</li>
+
+              {% elif where == 'series' %}
+                <li  onclick="window.location.href='/vicat/edit_series/{{ series.id }}'">Редактировать сериал</li>
+                <a href="/vicat/{{ series.id }}/delete_series"><li class="delete_btn" onclick="return confirm('Подтвердите удаление сериала')">Удалить сериал</li></a>
+
+              {% elif where == 'seasons' %}
+                <li  onclick="window.location.href='/vicat/{{ series.id }}/create_season'">Добавить сезон</li>
+
+              {% elif where == 'inseason' %}
+                <li  onclick="window.location.href='/vicat/{{ series.id }}/edit_season/{{ season_num }}'">Редактировать сезон</li>
+                <a href="/vicat/{{ series.id }}/delete_season/{{ season_num }}"><li class="delete_btn" onclick="return confirm('Подтвердите удаление сезона')">Удалить сезон</li></a>
+
+              {% elif where == 'episode' %}
+                <li  onclick="window.location.href='/vicat/{{ series.id }}/season/{{ season_num }}/edit_episode/{{ cur_episode.id }}'">Редактировать эпизод</li>
+                <a href="/vicat/{{ series.id }}/season/{{ season_num }}/delete_episode/{{ episode.id }}"><li class="delete_btn" onclick="return confirm('Подтвердите удаление записи')">Удалить эпизод</li></a>
+
+              {% endif %}
+            {% endif %}
+
+
+          </ul>
+        </div>
+
+      </div>
+
+      <div id="switcher_wrap">
+        <div class="copyr  footer_left" >Created by AlexNas. Code licensed under <a href="href="http://opensource.org/licenses/mit-license.html"">MIT License</a>.</div>
+        <div id="switcher" class="closed" class="footer_right">
+          <img src="{% static "img/list_closed.png" %}" />
+        </div>
+      </div>
+
+      <div id="gallery" class="hidden">
+{% block underground %}
+{% endblock %}
+      </div>
+
+      <div id="footer">
+      </div>
+    </div>
+  </div>
+</body>
+</html>

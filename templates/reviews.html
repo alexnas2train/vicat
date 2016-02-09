@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+  <div id="view-wrap">
+    <div id="view" class="img-series">
+      <img src="{% static "img/girl.jpg" %}" alt="Picture of girl" />
+    </div>
+
+    <div id="under-view">
+      <div id="under-view-left">
+        <form id="search_form" action="/vicat/search/" method="GET">
+            <input id="search_text" type="text" name="q">
+            <input id="search_submit" type="submit" value="Найти">
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div id="wrapper">
+    <div id="info_wrapper" class="height1">
+      <div class="ser-title">{{ series.title }}</div>
+      <div class="season-title padleft2 padtop1">Отзывы ({{ review_count }})</div>
+      <div id="create_new">
+        <a href="/vicat/{{ series.id }}/create_review">Добавить отзыв</a>
+      </div>
+  <!-- aaaaaaa -->
+      <div id="info-block" class="fixheight2 padtop2">
+        <div class="review_wrap">
+          {% if review_list %}
+            {% for review in review_list %}
+              <div class="review_row">
+                <div class="review_left1">{{ review.user }}</div>
+                <div class="review_left1">{{ review.created }}</div>
+
+                <div class="review_right1 rev_like {{ review.is_author }}">
+                  <a id="like"
+                    {% if user.is_authenticated %}
+                      {% if review.is_author != "is_author" %}
+                        href="/vicat/{{ series.id }}/like_review/{{ review.id }}"
+                      {% endif %}
+                    {% endif %}
+
+                      title="Нравится!">
+                    {% if  review.is_liked == True %}
+                      <span class="fa fa-thumbs-up fa-1x">
+                    {% elif  review.is_liked == False %}
+                      <span class="fa fa-thumbs-o-up fa-1x">
+                    {% endif %}
+
+                     {{review.likes_count}}</span>
+                  </a>
+                </div>
+
+                  <div class="review_right1 rev_edit">
+                {% if user == review.user %}
+                    <a href="/vicat/{{ series.id }}/edit_review/{{ review.id }}" title="Редактировать">
+                    <span class="fa fa-pencil-square-o fa-1x"></span>
+                    </a>
+                {% endif %}
+                  </div>
+
+                  <div class="review_right1 rev_delete">
+                {% if user.is_staff %}
+                    <a href="/vicat/{{ series.id }}/delete_review/{{ review.id }}" title="Удалить">
+                    <span class="fa fa-times fa-1x" onclick="return confirm('Подтвердите удаление сериала')"></span>
+                    </a>
+                {% endif %}
+                  </div>
+
+              </div>
+
+              <div class="review_row">
+                <div class="tab-left  rev_text">
+                  <a>{{ review.text }}</a>
+                </div>
+              </div>
+            {% endfor %}
+          {% else %}
+            <p>По запросу ничего не найдено</p>
+          {% endif %}
+        </div>
+      </div>
+  <!-- aaaaaaa -->
+
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block underground %}
+{% endblock %}

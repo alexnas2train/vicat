@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+
+  <div id="view-wrap">
+    <div id="view" class="img-series">
+          <img src="{% static "img/girl.jpg" %}" alt="Picture of girl" />
+    </div>
+
+    <div id="under-view">
+      <div id="under-view-left">
+      </div>
+<!--       <div id="under-view-left">
+      </div> -->
+    </div>
+  </div>
+
+    <div id="wrapper">
+      <div id="info-block" class="height1">
+        <div class="ser-title">Регистрация нового пользователя</div>
+        <!-- <div class="padtop2"></div> -->
+        <div id="login_block">
+
+          <h3 class="reg_title">Заполните, пожалуйста, форму</h3>
+
+          <form id="newedit_block" class="register" action="/accounts/register/" method="POST" >
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input  id="newedit_submit" type="submit" value="Подтвердить" />
+          </form>
+
+        </div>
+      </div>
+    </div>
+{% endblock %}
+
+
+
+{% block underground %}
+{% endblock %}
