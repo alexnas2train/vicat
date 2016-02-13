@@ -4,18 +4,14 @@
 {% block content %}
   <div id="view-wrap">
     <div id="view" class="img-series">
-          <img src="{% static "img/girl.jpg" %}" alt="Picture of girl" />
-          <!-- <img src="{% static 'series.preview_series' %}" alt="Picture of series" /> -->
-          <!-- <img src="www{{ series.preview_series }}" alt="{{ series.preview_series }}" /> -->
-
-          <!-- <img src="{{ preview_series_url }}" / > -->
-          <!-- <img src="{{STATIC_URL}}images/google.png" / > -->
-
+          {% if  series.image_series %}
+            <img src="{{ series.image_series.url }}" alt="Picture for series" />
+          {% else %}
+            <img src="{% static "img/default_image_ser.jpg" %}" alt="Picture for series" />
+          {% endif %}
     </div>
-{{ series.preview_series }}
     <div id="under-view">
       <div id="under-view-left">
-{{ series.preview_series }}
       </div>
       <div id="under-view-left">
 

@@ -15,6 +15,10 @@ class SeriesForm(forms.ModelForm):
     note = forms.CharField(label="Заметки",
                                     widget=forms.Textarea, required=False)
 
+    image_series = forms.ImageField(label="Данные о фото сер", required=False,
+                                    widget=forms.FileInput)
+    image_episode = forms.ImageField(label="Данные о фото эп", required=False,
+                                    widget=forms.FileInput)
     im_sourse_series = forms.ImageField(label="Источник фото", required=False,
                                     widget=forms.FileInput)
     im_sourse_episode = forms.ImageField(label="Источник фото", required=False,
@@ -25,7 +29,7 @@ class SeriesForm(forms.ModelForm):
         fields = ('title','description', 'year', 'length', 'studio', 'country',
                     'language', 'subt_lan',  'show_type', 'genre', 'director',
                     'actors', 'title_trans', 'preview_series', 'preview_episode',
-                    'im_sourse_series', 'im_sourse_episode', 'viewed',
+                    'image_series', 'image_episode', 'im_sourse_series', 'im_sourse_episode', 'viewed',
                     'active', 'istorrent', 'torrent', 'tosearch', 'note')
 
 

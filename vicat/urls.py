@@ -1,12 +1,10 @@
 from django.conf.urls import url
 
-from django.conf import settings
-from django.conf.urls.static import static
-from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+# from django.conf import settings
+# from django.conf.urls.static import static
+# from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 from . import views
-
-
 
 
 urlpatterns = [
@@ -50,34 +48,9 @@ urlpatterns = [
                                     views.delete_review, name='delete_review'),
     url(r'^(?P<series_id>[a-z,0-9,-]*)/like_review/(?P<review_id>[0-9]*)$',
                                     views.like_review, name='like_review'),
-    # url(r'^like_review/(?P<review_id>[0-9]*)$',
-                                    # views.like_review, name='like_review'),
 
-    # url(r'^(?P<series_id>[a-z,0-9,-]*)/reviews_ajax/(?P<review_id>[0-9]*)$',
-    #                                 views.reviews_ajax, name='reviews_ajax'),
-    # url(r'^ajax_testing$', views.ajax_testing, name='ajax_testing'),
 
-    # (r'^static/(?P<path>.*)$', 'django.views.static.serve',{'document_root': settings.MEDIA_ROOT}),
 ]
-# + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-urlpatterns += staticfiles_urlpatterns()
 
 
-
-
-# url(regex, view)
-# url(r'^media/(?P<path>.*)$', views.static.serve,
-#              {'document_root': settings.MEDIA_ROOT})
-
-# urlpatterns = patterns('',
-#                (r'^media/(?P<path>.*)$', 'django.views.static.serve',
-#                  {'document_root': settings.MEDIA_ROOT}),
-#               )
-
-
-# urlpatterns = patterns('',
-#     # ... the rest of your URLconf goes here ...
-# ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

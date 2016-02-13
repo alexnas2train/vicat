@@ -17,6 +17,7 @@ from django.conf.urls import url, include
 from django.contrib import admin
 
 from . import views
+from django.conf import settings
 
 from django.contrib.auth import urls
 
@@ -34,6 +35,9 @@ urlpatterns = [
     url(r'^accounts/register/$', views.register_user, name='register_user'),
     url(r'^accounts/register_success/$',
                             views.register_success, name='register_success'),
+    url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
+        'document_root': settings.MEDIA_ROOT}),
+
 ]
 
 

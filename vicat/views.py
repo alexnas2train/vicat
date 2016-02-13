@@ -359,25 +359,50 @@ def create_season(request, series_id):
     context_dict['season_list'] = season_list
     return render(request, 'create_season.html', context_dict)
 
+def series(request, series_id):
+    series = get_object_or_404(Series, pk=series_id)
+    istorrent = False
+    context_dict = {}
+    context_dict['is_editor'] = (request.user.is_active and
+                                    request.user.is_staff)
+    context_dict['title'] = series_title(request, series)
 
-# new version 07022016=====================================
+    episode_list_total = Episode.objects.filter(series_id=series_id).all()
+    context_dict['episode_list_total'] = episode_list_total
+
+    if series.torrent:
+        istorrent = True
+    print(istorrent)
+
+    istorrent = True
+    context_dict['istorrent'] = istorrent
+    context_dict['review_count'] = Review.objects.filter(
+                                series_id=series_id).all().count()
+    preview_series_url = settings.MEDIA_URL + series.preview_series
+    print('preview_url_WWWWWWWWWWWWWWW = ', preview_series_url)
+    context_dict['preview_series_url'] = preview_series_url
+    context_dict['series'] = series
+    context_dict['where'] = 'series'
+    return render(request, "series.html", context_dict)
+
+
+# new version 13022016=====================================
 @staff_member_required
 def edit_series(request, series_id):
     """ Update the series instance """
-    series_model = get_object_or_404(Series, pk=series_id)
-    form = SeriesForm(request.POST or None, request.FILES or None, instance=series_model)
+    context_dict = {}
+    series = get_object_or_404(Series, pk=series_id)
+    form = SeriesForm(request.POST or None, request.FILES or None, instance=series)
     if form.is_valid():
-        obj = form.save(commit=False)
-        obj.save()
-        image_presave(request, obj)
-
+        form.save()
         return HttpResponseRedirect('/vicat/catalog/')
 
     return render(request, 'edit_series.html', {
                                 'form': form,
-                                'series_id': series_id, })
+                                'series': series,
+                                'series_id': series_id})
 
-# new version  07022016=====================================
+# new version  13022016=====================================
 @staff_member_required
 def create_series(request):
     """ Create a new series instance
@@ -386,69 +411,12 @@ def create_series(request):
     """
     form = SeriesForm(request.POST or None, request.FILES or None)
     if form.is_valid():
-        obj = form.save(commit=False)
-        obj.save()
-        image_presave(request, obj)
-
+        form.save()
         return HttpResponseRedirect('/vicat/catalog/')
 
     return render(request, 'create_series.html', {'form': form})
 
 
-def image_presave(request, obj):
-    """ Prepare uploaded image for saving and send to save
-        Substitute an image file by default file if no uploaded
-        Save new image name to the db object
-    """
-    fname_fff = ('images/'+ 'fff' +
-                    str(obj.slug.encode('utf-8')) + '.jpg')
-    fname_eee = ('images/'+ 'eee' +
-                    str(obj.slug.encode('utf-8')) + '.jpg')
-
-    if u'im_sourse_series' in request.FILES:
-        fseries_to_save = request.FILES[u'im_sourse_series']
-        save_file(fseries_to_save, fname_fff)
-    else:
-        print('NOTHING - series image file is not Uploaded')
-        image_name = settings.NOIMAGE_NAME_SERIES
-        save_file_none(image_name, fname_fff)
-
-    if u'im_sourse_episode' in request.FILES:
-        fepis_to_save = request.FILES[u'im_sourse_episode']
-        save_file(fepis_to_save, fname_eee)
-    else:
-        print('NOTHING - episode image file is not Uploaded')
-        image_name = settings.NOIMAGE_NAME_EPISODE
-        save_file_none(image_name, fname_eee)
-
-
-    # Check default image files presence
-    print(settings.MEDIA_ROOT + "/" + fname_fff)
-    if os.path.isfile(settings.MEDIA_ROOT + "/" + fname_fff):
-        obj.preview_series = fname_fff
-        obj.save()
-    else:
-        print('Write error of serial image file')
-    if os.path.isfile(settings.MEDIA_ROOT + "/" + fname_eee):
-        obj.preview_episode = fname_eee
-        obj.save()
-    else:
-        print('Write error of episode image file')
-
-
-def save_file_none(image_name, fname):
-    """ Save a default image file into mediaroot path  """
-    print('noimage_file',settings.MEDIA_ROOT + "/" + str(image_name))
-    try:
-        noimage_file = Image.open(settings.MEDIA_ROOT + "/" + str(image_name))
-    except IOError as e:
-        print ("I/O error({0}): {1}".format(e.errno, e.strerror))
-        print 'Exception raised while opening image file.'
-        return
-    noimage_file.save(settings.MEDIA_ROOT + '/' +  str(fname))
-
-# fname_todelete = settings.MEDIA_ROOT + '/' +  str(fname)
-# deleteFile(fname_todelete)
 
 def deleteFile(fileName):
     """ Delete image file while deleted the associated database instance """
@@ -458,15 +426,6 @@ def deleteFile(fileName):
         print("I/O error({0}): {1}".format(e.errno, e.strerror))
         print 'Exception raised while deleting image file.'
 
-
-def save_file(file, fname, path=''):
-    """ Save an image file into mediaroot path  """
-    # filename = file._get_name()
-    filename = fname
-    fd = open('%s/%s' % (settings.MEDIA_ROOT, str(path) + str(filename)), 'wb')
-    for chunk in file.chunks():
-        fd.write(chunk)
-    fd.close()
 
 
 def catalog(request):
@@ -516,32 +475,6 @@ def index(request):
     series_list = Series.objects.all()
     context_dict['series_list'] = series_list
     return render(request, 'index.html', context_dict)
-
-def series(request, series_id):
-    series = get_object_or_404(Series, pk=series_id)
-    istorrent = False
-    context_dict = {}
-    context_dict['is_editor'] = (request.user.is_active and
-                                    request.user.is_staff)
-    context_dict['title'] = series_title(request, series)
-
-    episode_list_total = Episode.objects.filter(series_id=series_id).all()
-    context_dict['episode_list_total'] = episode_list_total
-
-    if series.torrent:
-        istorrent = True
-    print(istorrent)
-
-    istorrent = True
-    context_dict['istorrent'] = istorrent
-    context_dict['review_count'] = Review.objects.filter(
-                                series_id=series_id).all().count()
-    preview_series_url = settings.MEDIA_URL + series.preview_series
-    print('preview_url_WWWWWWWWWWWWWWW = ', preview_series_url)
-    context_dict['preview_series_url'] = preview_series_url
-    context_dict['series'] = series
-    context_dict['where'] = 'series'
-    return render(request, "series.html", context_dict)
 
 def seasons(request, series_id):
     context_dict = {}

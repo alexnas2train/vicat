@@ -5,7 +5,12 @@
 
   <div id="view-wrap">
     <div id="view" class="img-series">
-          <img src="{% static "img/girl.jpg" %}" alt="Picture of girl" />
+          <!-- <img src="{% static "img/girl.jpg" %}" alt="Picture of girl" /> -->
+          {% if  series.image_series %}
+            <img src="{{ series.image_series.url }}" alt="Picture for series" />
+          {% else %}
+            <img src="{% static "img/default_image_ser.jpg" %}" alt="Picture for series" />
+          {% endif %}
     </div>
 
     <div id="under-view">

@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # 'suit',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -73,10 +74,12 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # 'django.core.context_processors.request',
             ],
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'vipro.wsgi.application'
 
@@ -148,9 +151,10 @@ STATICFILES_FINDERS = (
 
 ADMIN_MEDIA_PREFIX = '/static/admin/'
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-# print(MEDIA_ROOT)
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+# print('MEDIA_ROOT_wwwwwwwwwwwwwww', MEDIA_ROOT)
 MEDIA_URL = '/media/'
+# print('MEDIA_URL_wwwwwwwwwwwwwww', MEDIA_URL)
 
 NOIMAGE_NAME_SERIES = 'images/none/no_img_series.jpg'
 NOIMAGE_NAME_EPISODE = 'images/none/no_img_epis.jpg'

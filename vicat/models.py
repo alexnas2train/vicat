@@ -1,32 +1,57 @@
 # -*- coding: utf-8 -*-
 #!/usr/bin/python --2.7
 from __future__ import unicode_literals
+import os
 
 import string
 import random
 import datetime
 
+from django.core.files.storage import FileSystemStorage
 from django.template.defaultfilters import slugify
 from django.db import models
 from django.contrib.auth.models import User
 import uuid
 
+from django.conf import settings
 from django import forms
 from .choices import *
 
+
+
+class OverwriteStorage(FileSystemStorage):
+    ''' Overwrite existing filename if already exist '''
+    print('settings.MEDIA_ROOT',settings.MEDIA_ROOT)
+    def get_available_name(self, name):
+        if self.exists(name):
+            os.remove(os.path.join(settings.MEDIA_ROOT, name))
+        return name
+
+def get_upload_path_ser(instance, filename, **kwargs):
+    ''' File will be uploaded to MEDIA_ROOT/+images/+fff+slug+extension '''
+    ext = filename.split('.')[-1]
+    return '{0}/{1}{2}.{3}'.format('images', 'fff', instance.slug, ext)
+
+def get_upload_path_epis(instance, filename):
+    ''' File will be uploaded to MEDIA_ROOT/+images/+sss+slug+extension '''
+    name, ext = filename.split('.')
+    return '{0}/{1}{2}.{3}'.format('images', 'sss', instance.slug, ext)
+
 class Series(models.Model):
-    id = models.UUIDField(primary_key = True,default=uuid.uuid4, editable=False)
-    slug = models.SlugField(max_length=10, primary_key=False, blank=True)
+    id = models.UUIDField(primary_key = True,default=uuid.uuid4,editable=False)
+    slug = models.SlugField(max_length=30, primary_key=False, blank=True)
     title = models.CharField(u'название**', max_length=128, unique=True)
     description = models.CharField(u'описание', max_length=1024, blank=True,
                                     default='Описание не оформлено')
-    # preview_series = models.CharField(u'фото сериала', blank=True, max_length=128,
-    #                                null=True, default='images/None/no_img_series.jpg')
-    # preview_episode = models.CharField(u'фото эпизода', blank=True, max_length=128,
-    #                                null=True, default='images/None/no_img_epis.jpg')
-    preview_series = models.CharField(u'фото сериала', blank=True, max_length=128,
+    image_series = models.ImageField (u'данные о фото_сер', blank=True,
+                                    upload_to=get_upload_path_ser,
+                                    storage=OverwriteStorage())
+    image_episode = models.ImageField (u'данные о фото_эп', blank=True,
+                                    upload_to=get_upload_path_epis,
+                                    storage=OverwriteStorage())
+    preview_series = models.CharField(u'имя фото сериала', blank=True, max_length=128,
                                    null=True)
-    preview_episode = models.CharField(u'фото эпизода', blank=True, max_length=128,
+    preview_episode = models.CharField(u'имя фото эпизода', blank=True, max_length=128,
                                    null=True)
     year = models.IntegerField(u'год выпуска', default=0, blank=False)
     length = models.IntegerField(u'длительность', default=0)
@@ -69,16 +94,14 @@ class Series(models.Model):
         verbose_name = u"Сериал"
         verbose_name_plural = u"Сериалы"
 
-    def save(self):
-        super(Series, self).save()
-        # date = datetime.date.today()
+    def save(self, *args, **kwargs):
         date = datetime.datetime.today()
         if not self.slug:
             self.slug = '%i%i%i-%i%i%i-%s' % (
                         date.year, date.month, date.day, date.hour,
                         date.minute, date.second, slugify(self.title)[:10],
                     )
-        super(Series, self).save()
+        super(Series, self).save(*args, **kwargs)
 
 
 class Season(models.Model):
@@ -95,7 +118,6 @@ class Season(models.Model):
         verbose_name = u"Сезон"
         verbose_name_plural = u"Сезоны"
         unique_together = (('season_num', 'series'),('title', 'series'),)
-
 
 
 class Episode(models.Model):
@@ -151,22 +173,6 @@ class Episode(models.Model):
             pass
 
 
-# class Status(models.Model):
-#     viewed = models.BooleanField(u'просмотрен',default=False)
-#     active = models.BooleanField(u'актив',default=False)
-#     torrent = models.CharField(u'торрент', blank=True, max_length=512)
-#     tosearch = models.BooleanField(u'искать',default=False)
-#     series = models.ForeignKey(Series)
-#     user = models.ForeignKey(User)
-
-#     def __unicode__(self):
-#         return u'Статус %s' % (self.series)
-
-#     class Meta:
-#         verbose_name = u"Статус"
-#         verbose_name_plural = u"Статусы"
-
-
 class Review(models.Model):
     text = models.CharField(u'текст', max_length=256)
     created = models.DateTimeField(u'дата создания', auto_now_add=True,
@@ -175,9 +181,7 @@ class Review(models.Model):
                                     auto_now_add = False, auto_now=True)
     series = models.ForeignKey(Series)
     user = models.ForeignKey(User)
-
     likes = models.IntegerField(u'кол-во лайков', default=0)
-
 
     def __unicode__(self):
         return u'Отзыв %s' % (self.text)
@@ -191,16 +195,12 @@ class Review(models.Model):
 
     likes_count = property(calculate_likes)
 
-
     def check_likes(self, cur_user):
         if Like.objects.filter(review=self, user=cur_user).is_liked == True:
             return True
         else: return False
 
-
     likes_check = property(check_likes)
-
-
 
 
 

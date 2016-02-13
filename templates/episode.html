@@ -15,7 +15,12 @@
 {% block content %}
   <div id="view-wrap">
     <div id="view" class="img-episode">
-          <img src="{% static "img/anothergirl.jpg" %}" alt="Picture of girl" />
+          <!-- <img src="{% static "img/anothergirl.jpg" %}" alt="Picture of girl" /> -->
+          {% if  series.image_series %}
+            <img src="{{ series.image_episode.url }}" alt="Picture for episode" />
+          {% else %}
+            <img src="{% static "img/anothergirl.jpg" %}" alt="Picture for episode" />
+          {% endif %}
     </div>
 
     <div id="under-view">
