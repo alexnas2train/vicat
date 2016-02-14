@@ -105,7 +105,7 @@ def edit_review(request, series_id, review_id):
             return HttpResponseRedirect('/vicat/'+series_id+'/reviews')
 
     else:
-        text = get_object_or_404(Review, series_id=series_id, id=review_id).text
+        text = get_object_or_404(Review, series_id=series_id,id=review_id).text
         data = {'series': series, 'user': request.user, 'text': text}
         form = ReviewForm(initial=data)
 
@@ -315,7 +315,8 @@ def edit_season(request, series_id, season_num):
         series = get_object_or_404(Series, pk=series_id)
         season = Season.objects.get(series_id=series_id, season_num=season_num)
         # title = season.title
-        data = {'series': series, 'season_num': season_num, 'title': season.title}
+        data = {'series': series, 'season_num': season_num,
+                'title': season.title}
         form = SeasonForm(initial=data)
         form.fields['series'].widget.attrs['readonly'] = True
 
@@ -378,9 +379,6 @@ def series(request, series_id):
     context_dict['istorrent'] = istorrent
     context_dict['review_count'] = Review.objects.filter(
                                 series_id=series_id).all().count()
-    preview_series_url = settings.MEDIA_URL + series.preview_series
-    print('preview_url_WWWWWWWWWWWWWWW = ', preview_series_url)
-    context_dict['preview_series_url'] = preview_series_url
     context_dict['series'] = series
     context_dict['where'] = 'series'
     return render(request, "series.html", context_dict)
@@ -392,7 +390,8 @@ def edit_series(request, series_id):
     """ Update the series instance """
     context_dict = {}
     series = get_object_or_404(Series, pk=series_id)
-    form = SeriesForm(request.POST or None, request.FILES or None, instance=series)
+    form = SeriesForm(request.POST or None,
+                      request.FILES or None, instance=series)
     if form.is_valid():
         form.save()
         return HttpResponseRedirect('/vicat/catalog/')
@@ -415,16 +414,6 @@ def create_series(request):
         return HttpResponseRedirect('/vicat/catalog/')
 
     return render(request, 'create_series.html', {'form': form})
-
-
-
-def deleteFile(fileName):
-    """ Delete image file while deleted the associated database instance """
-    try:
-        os.remove(fileName)
-    except IOError as e:
-        print("I/O error({0}): {1}".format(e.errno, e.strerror))
-        print 'Exception raised while deleting image file.'
 
 
 
@@ -532,7 +521,7 @@ def episode(request, series_id, season_num, episode_id):
     context_dict['season_num'] = season_num
     context_dict['cur_episode'] = cur_episode
     context_dict['episode_list'] = Episode.objects.filter(series_id=series_id,
-                                                season_num=season_num).all().order_by('episode_num')
+                        season_num=season_num).all().order_by('episode_num')
     context_dict['istorrent'] = istorrent
     context_dict['season_list'] = season_list
     context_dict['cur_season'] = cur_season
@@ -561,35 +550,65 @@ def status_proc(request, series):
             )
     return (result)
 
+#================ Delete Everything ======================
+
+def delete_file(filename):
+    """ Delete image file while deleted the associated database instance """
+    try:
+        os.remove(filename)
+    except Exception as e:
+        print("I/O error({0}): {1}".format(e.errno, e.strerror))
+        print 'Exception raised while deleting image file.'
+
+def check_and_delete_files(series_to_delete):
+    """ Checks and delete serial image file, episode image file """
+    if series_to_delete.image_series.name:
+        fname_series_to_delete = (settings.MEDIA_ROOT +
+                                    series_to_delete.image_series.name)
+        if os.path.isfile(fname_series_to_delete):
+            print('fname_series_to_delete',fname_series_to_delete)
+            delete_file(fname_series_to_delete)
+        else:
+            print('SERIES IMAGE FILE DOES NOT EXIST', fname_series_to_delete)
+    else:
+        print('NOTHING - NO series image in database to delete')
+        # pass
+    if series_to_delete.image_episode.name:
+        fname_epis_to_delete = (settings.MEDIA_ROOT +
+                                    series_to_delete.image_episode.name)
+        if os.path.isfile(fname_epis_to_delete):
+            print('fname_epis_to_delete',fname_epis_to_delete)
+            delete_file(fname_epis_to_delete)
+        else:
+            print('EPISODE IMAGE FILE DOES NOT EXIST', fname_epis_to_delete)
+    else:
+        print('NOTHING - NO episode image in database to delete')
+        # pass
 
 
 @staff_member_required
 def delete_series(request, series_id):
-    try:
+    """
+        Than delete serial instance
+    """
+    try:        ## series instance deletion
         series_to_delete = Series.objects.get(id=series_id)
-        fname_series_to_delete = settings.MEDIA_ROOT + '/' +  str(series_to_delete.preview_series)
-        deleteFile(fname_series_to_delete)
-        fname_epis_to_delete = settings.MEDIA_ROOT + '/' +  str(series_to_delete.preview_episode)
-        deleteFile(fname_epis_to_delete)
+        check_and_delete_files(series_to_delete)  ## Image files deletion
         series_to_delete.delete()
     except ObjectDoesNotExist:
         print( "Series doesn't exist.")
 
-    try:
+    try:        ## Season instance deletion
         season_to_delete = Season.objects.get(series_id=series_id).delete()
+        # pass
     except ObjectDoesNotExist:
         print( "Season doesn't exist.")
 
-    try:
+    try:        ## Episode instance deletion
         episode_to_delete = Episode.objects.get(series_id=series_id).delete()
+        # pass
     except ObjectDoesNotExist:
         print( "Episode doesn't exist.")
-    # series_to_delete = get_object_or_404(Series, id=series_id).delete()
-    # season_to_delete = get_object_or_404(Season, series_id=series_id).delete()
-    # episodes_to_delete = get_object_or_404(Episode,
-                                                # series_id=series_id).delete()
-
-
 
     return HttpResponseRedirect(('/vicat/catalog/'))
 
@@ -606,21 +625,19 @@ def delete_season(request, series_id, season_num):
     except ObjectDoesNotExist:
         print( "Episode doesn't exist.")
 
-    # season_to_delete = get_object_or_404(Season, series_id=series_id,
-    #                                     season_num=season_num).delete()
-    # episodes_to_delete = Episode.objects.filter(series_id=series_id,
-    #                                     season_num=season_num).all().delete()
     return HttpResponseRedirect(('/vicat/'+series_id+'/seasons'))
 
 @staff_member_required
 def delete_eppisode(request, series_id, season_num, episode_id):
+    print('episode_id',episode_id)
     try:
-        episode_to_delete = Episode.objects.get(pk=episode_id).delete()
+        episode_to_delete = Episode.objects.get(pk=episode_id)
+        episode_to_delete.delete()
     except ObjectDoesNotExist:
         print( "Episode doesn't exist.")
-    # episode_to_delete = get_object_or_404(Episode, pk=episode_id).delete()
     return HttpResponseRedirect(('/vicat/'+series_id+'/season/'+season_num))
 
+#================  ======================
 
 
 #==================  search  ====================

@@ -82,12 +82,4 @@
 
 
 {% block underground %}
-    {% if episode_list_total %}
-      <ul></ul>
-        {% for episode in episode_list_total %}
-          <li><a href="/vicat/{{ episode.id }}">{{ episode.title }}</a></li>
-        {% endfor %}
-    {% else %}
-      <p>No episode is available</p>
-    {% endif %}
 {% endblock %}

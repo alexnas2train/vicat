@@ -499,6 +499,10 @@ form{
     width: 250px;
     height: 20px;
 }
+#id_image_series, #id_image_episode {
+    margin: 1px 0 2px 0;;
+}
+
 #newedit_block textarea{
     resize: vertical;
     font: 14px Arial;

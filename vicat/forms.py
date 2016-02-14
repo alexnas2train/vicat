@@ -15,48 +15,33 @@ class SeriesForm(forms.ModelForm):
     note = forms.CharField(label="Заметки",
                                     widget=forms.Textarea, required=False)
 
-    image_series = forms.ImageField(label="Данные о фото сер", required=False,
+    image_series = forms.ImageField(label="Фото сериала", required=False,
                                     widget=forms.FileInput)
-    image_episode = forms.ImageField(label="Данные о фото эп", required=False,
-                                    widget=forms.FileInput)
-    im_sourse_series = forms.ImageField(label="Источник фото", required=False,
-                                    widget=forms.FileInput)
-    im_sourse_episode = forms.ImageField(label="Источник фото", required=False,
+    image_episode = forms.ImageField(label="Фото эпизода", required=False,
                                     widget=forms.FileInput)
 
     class Meta:
         model = Series
         fields = ('title','description', 'year', 'length', 'studio', 'country',
                     'language', 'subt_lan',  'show_type', 'genre', 'director',
-                    'actors', 'title_trans', 'preview_series', 'preview_episode',
-                    'image_series', 'image_episode', 'im_sourse_series', 'im_sourse_episode', 'viewed',
+                    'actors', 'title_trans',
+                    'image_series', 'image_episode', 'viewed',
                     'active', 'istorrent', 'torrent', 'tosearch', 'note')
-
 
 
 class SeasonForm(forms.ModelForm):
     class Meta:
         model = Season
         fields = '__all__'
-        # fields = ('title', 'season_num')
-        # exclude = ('episode_qty',)
-        # readonly_fields = ['title','season_num']
-        # form.fields['title'].widget.attrs['readonly'] = True
 
 class EpisodeForm(forms.ModelForm):
-    # series = forms.CharField(label="Название сериала", required=True)
-    # season = forms.CharField(label="Название сезона", required=True)
     description = forms.CharField(label="Описание",
                                     widget=forms.Textarea, required=False)
 
     class Meta:
         model = Episode
-        # fields = '__all__'
-        fields = ('title', 'description', 'length', 'episode_num',
+        fields = ('title', 'episode_num', 'description', 'length',
                     'watch_count', 'series', 'season_num', 'season')
-        # fields = ('title', 'description', 'length', 'episode_num',
-                    # 'watch_count', 'preview')
-
 
 class ReviewForm(forms.ModelForm):
     text = forms.CharField(label="Добавьте ваш отзыв:",

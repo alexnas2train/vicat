@@ -49,10 +49,6 @@ class Series(models.Model):
     image_episode = models.ImageField (u'данные о фото_эп', blank=True,
                                     upload_to=get_upload_path_epis,
                                     storage=OverwriteStorage())
-    preview_series = models.CharField(u'имя фото сериала', blank=True, max_length=128,
-                                   null=True)
-    preview_episode = models.CharField(u'имя фото эпизода', blank=True, max_length=128,
-                                   null=True)
     year = models.IntegerField(u'год выпуска', default=0, blank=False)
     length = models.IntegerField(u'длительность', default=0)
     season_qty = models.IntegerField(u'кол-во сезонов',
@@ -143,7 +139,6 @@ class Episode(models.Model):
         verbose_name = u"Эпизод"
         verbose_name_plural = u"Эпизоды"
         unique_together = (('episode_num', 'series'), ('title', 'series'),)
-        # unique_together = (('episode_num', 'season_num', 'series'), ('title', 'series'),)
 
     def save(self, *args, **kwargs):
         self.season_num = self.season.season_num

@@ -142,7 +142,7 @@
 
               {% elif where == 'episode' %}
                 <li  onclick="window.location.href='/vicat/{{ series.id }}/season/{{ season_num }}/edit_episode/{{ cur_episode.id }}'">Редактировать эпизод</li>
-                <a href="/vicat/{{ series.id }}/season/{{ season_num }}/delete_episode/{{ episode.id }}"><li class="delete_btn" onclick="return confirm('Подтвердите удаление записи')">Удалить эпизод</li></a>
+                <a href="/vicat/{{ series.id }}/season/{{ season_num }}/delete_episode/{{ cur_episode.id }}"><li class="delete_btn" onclick="return confirm('Подтвердите удаление записи')">Удалить эпизод </li></a>
 
               {% endif %}
             {% endif %}
