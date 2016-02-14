@@ -234,7 +234,7 @@ def edit_episode(request, series_id, season_num, episode_id):
         form.fields['series'].widget.attrs['readonly'] = True
         form.fields['season'].widget.attrs['readonly'] = True
         form.fields['season_num'].widget.attrs['readonly'] = True
-        form.fields['watch_count'].widget.attrs['readonly'] = True
+        # form.fields['watch_count'].widget.attrs['readonly'] = True
 
     season_list = Season.objects.filter(
                         series_id=series_id).all().order_by('season_num')

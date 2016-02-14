@@ -30,6 +30,8 @@ class SeriesForm(forms.ModelForm):
 
 
 class SeasonForm(forms.ModelForm):
+    series = forms.CharField(label="Название сериала",
+                                    widget=forms.Textarea, required=True)
     class Meta:
         model = Season
         fields = '__all__'
@@ -37,11 +39,15 @@ class SeasonForm(forms.ModelForm):
 class EpisodeForm(forms.ModelForm):
     description = forms.CharField(label="Описание",
                                     widget=forms.Textarea, required=False)
+    series = forms.CharField(label="Название сериала",
+                                    widget=forms.Textarea, required=True)
+    season = forms.CharField(label="Название сезона",
+                                    widget=forms.Textarea, required=True)
 
     class Meta:
         model = Episode
         fields = ('title', 'episode_num', 'description', 'length',
-                    'watch_count', 'series', 'season_num', 'season')
+                    'series', 'season_num', 'season')
 
 class ReviewForm(forms.ModelForm):
     text = forms.CharField(label="Добавьте ваш отзыв:",
