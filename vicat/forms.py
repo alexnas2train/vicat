@@ -7,7 +7,6 @@ from .choices import *
 
 
 class SeriesForm(forms.ModelForm):
-
     description = forms.CharField(label="Описание",
                                     widget=forms.Textarea, required=False)
     title_trans = forms.CharField(label="Перевод названия",
@@ -78,7 +77,6 @@ class FilterForm(forms.Form):
                                 widget=forms.Select())
     viewed = forms.ChoiceField(choices=VIEWED, label = 'Просмотрен',
                                 widget=forms.Select())
-
 
     class Meta:
         fields = ('show_type', 'genre', 'country', 'language', 'subt_lan',

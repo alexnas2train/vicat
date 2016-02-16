@@ -18,20 +18,14 @@ from .forms import SeriesForm, SeasonForm, EpisodeForm, FilterForm,\
                    ReviewForm
 from .choices import *
 
-print(settings.MEDIA_ROOT)
+# print(settings.MEDIA_ROOT)
 
 
-# def user_is_author(request, review_id):
-#         user = request.user
-#         author_id = Review.objects.get(id=review_id).user_id
-#         if user.id == author_id:
-#             return True
-#         else:
-#             return False
 
-
-def like_toggle_n_save(request, review_id):
-    user = request.user
+def like_toggle_n_save(user, review_id):
+    """ Toggle like vote for the current user.
+        Save new like vote to the database.
+    """
     try:
         likesrec_obj = Like.objects.get(review_id=review_id, user=user)
         author_id = Review.objects.get(id=review_id).user_id
@@ -53,35 +47,86 @@ def like_toggle_n_save(request, review_id):
     return  is_liked
 
 
+@login_required
 def like_review(request, series_id, review_id):
-    is_liked = like_toggle_n_save(request, review_id)
+    """ Start like toggling procedure and
+        Restart the original 'reviews' view with new data
+    """
+    user = request.user
+    is_liked = like_toggle_n_save(user, review_id)
     print('after_save_is_liked =', is_liked)
-
     return HttpResponseRedirect('/vicat/'+series_id+'/reviews')
 
 
-# def like_review(request, series_id):
-#     rev_id = None
-#     print('TEST')
-#     if request.method == 'GET':
-#         rev_id = request.GET['series_id']
+def review_is_author(user, review_id):
+    """ Check if the current user is the author of review """
+    author_id = Review.objects.get(id=review_id).user_id
+    if user.id:
+        if user.id == author_id:
+            is_author = "is_author"
+        else:
+            is_author = "not_author"
+    else:
+        is_author = "anonimous"
+    return is_author
 
-#     likes = 0
-#     if cat_id:
-#         rev = Review.objects.get(id=int(rev_id))
-#         if cat:
-#             likes = cat.likes + 1
-#             rev.likes =  likes
-#             rev.save()
-#     return HttpResponse(likes)
+def review_is_liked(user, review_id):
+    """ Check if the current review is liked by the current user """
+    if user.username:
+        try:
+            likes_obj = Like.objects.get(review_id=review_id, user=user)
+            if likes_obj.is_liked == True:
+                is_liked = True
+                is_liked_class = "is_liked"
+            else:
+                is_liked = False
+                is_liked_class = "not_liked"
+        except Like.DoesNotExist:
+            is_liked = False
+            is_liked_class = "not_liked"
+    else:
+        is_liked = False
+        is_liked_class = "not_liked"
+        print('no username')
+    return (is_liked, is_liked_class)
 
 
+def reviews(request, series_id):
+    """ Start the the page, listing all reviews for the current serias """
+    context_dict = {}
+    # print('is_liked - wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww - redirect')
 
-#
+    user = request.user
+    review_list = Review.objects.filter(
+                        series_id=series_id).all().order_by('-created')
+
+    # access permission for voting (likes) =========
+    for review in review_list:
+        review_id=review.id
+        review.is_author = review_is_author(user, review_id)
+        review.is_liked, review.is_liked_class = review_is_liked(user,
+                                                                 review_id)
+
+    review_count = review_list.count()
+    series_title = get_object_or_404(Series, pk=series_id).title
+    series = get_object_or_404(Series, pk=series_id)
+
+    context_dict['user'] = user
+    context_dict['is_editor'] = (request.user.is_active and
+                                    request.user.is_staff)
+    context_dict['series_title'] = series_title
+    context_dict['series'] = series
+    context_dict['review_count'] = review_count
+    context_dict['review_list'] = review_list
+    context_dict['likes_count'] = review.likes_count
+    context_dict['where'] = 'reviews'
+
+    return render(request, 'reviews.html', context_dict)
 
 
 @staff_member_required
 def delete_review(request, series_id, review_id):
+    """ Delete chosen review (for staff only) """
     try:
         review_to_delete = Review.objects.get(pk=review_id).delete()
     except ObjectDoesNotExist:
@@ -145,62 +190,6 @@ def create_review(request, series_id):
     return render(request, 'create_review.html', context_dict)
 
 
-
-def reviews(request, series_id):
-    context_dict = {}
-    print('is_liked - wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww - redirect')
-
-    user = request.user
-    review_list = Review.objects.filter(
-                        series_id=series_id).all().order_by('-created')
-
-    # access permission for voting (likes) =========
-    for review in review_list:
-        review_id=review.id
-
-        author_id = Review.objects.get(id=review_id).user_id
-        if user.id:
-            if user.id == author_id:
-                review.is_author = "is_author"
-            else:
-                review.is_author = "not_author"
-        else:
-            review.is_author = "anonimous"
-        if user.username:
-            try:
-                likes_obj = Like.objects.get(review_id=review.id, user=user)
-                if likes_obj.is_liked == True:
-                    review.is_liked = True
-                    review.is_liked_class = "is_liked"
-                else:
-                    review.is_liked = False
-                    review.is_liked_class = "not_liked"
-            except Like.DoesNotExist:
-                review.is_liked = False
-        else:
-            review.is_liked = False
-            review.is_liked_class = "not_liked"
-            print('no username')
-    # =========================
-
-    review_count = review_list.count()
-    series_title = get_object_or_404(Series, pk=series_id).title
-    series = get_object_or_404(Series, pk=series_id)
-
-    context_dict['user'] = user
-    context_dict['is_editor'] = (request.user.is_active and
-                                    request.user.is_staff)
-    context_dict['series_title'] = series_title
-    context_dict['series'] = series
-    context_dict['review_count'] = review_count
-    context_dict['review_list'] = review_list
-    context_dict['likes_num'] = 101
-    context_dict['where'] = 'reviews'
-
-    return render(request, 'reviews.html', context_dict)
-
-
-# new version  07022016===================================
 @staff_member_required
 def edit_episode(request, series_id, season_num, episode_id):
     """ Update the episode instance """
@@ -361,6 +350,7 @@ def create_season(request, series_id):
     return render(request, 'create_season.html', context_dict)
 
 def series(request, series_id):
+    """ Start the  page showing details of the chosen series """
     series = get_object_or_404(Series, pk=series_id)
     istorrent = False
     context_dict = {}
@@ -418,6 +408,7 @@ def create_series(request):
 
 
 def catalog(request):
+    """ Start the page listing all series in catalog """
     filterargs = {}
     fields = ('show_type', 'genre', 'country', 'language', 'subt_lan',
                     'active', 'istorrent', 'tosearch', 'viewed')
@@ -458,6 +449,8 @@ def catalog(request):
 
 
 def index(request):
+    """ Start the initial page of the catalog application """
+
     context_dict = {}
     context_dict['is_editor'] = (request.user.is_active and
                                     request.user.is_staff)
@@ -466,6 +459,7 @@ def index(request):
     return render(request, 'index.html', context_dict)
 
 def seasons(request, series_id):
+    """ Start the  page showing details of the chosen season """
     context_dict = {}
     series = get_object_or_404(Series, pk=series_id)
     context_dict['is_editor'] = (request.user.is_active and
@@ -482,6 +476,7 @@ def seasons(request, series_id):
     return render(request, "seasons.html", context_dict)
 
 def inseason(request, series_id, season_num):
+    """ Start the page listing all episodes in the current season """
     context_dict = {}
     series = get_object_or_404(Series, pk=series_id)
     season_list = Season.objects.filter(
@@ -503,6 +498,7 @@ def inseason(request, series_id, season_num):
     return render(request, "inseason.html", context_dict)
 
 def episode(request, series_id, season_num, episode_id):
+    """ Start the  page showing details of the chosen episode """
     context_dict = {}
     context_dict['avr_rate'] = 4.4
     context_dict['my_rate'] = 3.5
@@ -588,8 +584,8 @@ def check_and_delete_files(series_to_delete):
 
 @staff_member_required
 def delete_series(request, series_id):
-    """
-        Than delete serial instance
+    """ Delete series instance
+        Delete all appropriate season and episode instances
     """
     try:        ## series instance deletion
         series_to_delete = Series.objects.get(id=series_id)
@@ -614,6 +610,9 @@ def delete_series(request, series_id):
 
 @staff_member_required
 def delete_season(request, series_id, season_num):
+    """ Delete season instance
+        Delete all appropriate episode instances
+    """
     try:
         season_to_delete = Season.objects.get(series_id=series_id,
                                         season_num=season_num).delete()
@@ -629,6 +628,7 @@ def delete_season(request, series_id, season_num):
 
 @staff_member_required
 def delete_eppisode(request, series_id, season_num, episode_id):
+    """ Delete episode instance """
     print('episode_id',episode_id)
     try:
         episode_to_delete = Episode.objects.get(pk=episode_id)
@@ -645,10 +645,12 @@ def delete_eppisode(request, series_id, season_num, episode_id):
 def normalize_query(query_string,
                     findterms=re.compile(r'"([^"]+)"|(\S+)').findall,
                     normspace=re.compile(r'\s{2,}').sub):
+    """ Normalization for searching query """
     return [normspace(' ', (t[0] or t[1]).strip())
                                 for t in findterms(query_string)]
 
 def get_query(query_string, search_fields):
+    """ Auxiliary function for searching function to form a query """
     query = None # Query to search for every search term
     terms = normalize_query(query_string)
     for term in terms:
@@ -666,6 +668,7 @@ def get_query(query_string, search_fields):
     return query
 
 def search(request):
+    """ Search serial by title and director categories """
     query_string = ''
     found_entries = None
     if ('q' in request.GET) and request.GET['q'].strip():

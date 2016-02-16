@@ -1,3 +1,5 @@
+#!/usr/bin/python --2.7
+# -*- coding: utf-8 -*-
 """
 Django settings for vipro project.
 
